@@ -1,12 +1,13 @@
-import React, {useContext} from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../../context";
-
+import { Menu, X } from "lucide-react";
 
 const Header = () => {
-
-    const { isLogin, isLoading } = useContext(MyContext);
+  const { isLogin, isLoading } = useContext(MyContext);
   const userId = localStorage.getItem("userId");
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -14,98 +15,71 @@ const Header = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("userId");
     window.location.reload();
-    isLogin(false);
-   
   };
 
-
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <header className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
-  
-        <div className="text-2xl font-bold tracking-wide cursor-pointer">
-          Shahan Ahmed
+      <div className="container mx-auto px-6 py-4">
+
+        {/* Top section: logo and mobile menu button */}
+        <div className="flex justify-between items-center">
+          {/* Replace this text with an image if you want a logo image */}
+          <div className="text-2xl font-bold tracking-wide cursor-pointer">
+            Shahan Ahmed
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="lg:hidden">
+            <button onClick={toggleMenu}>
+              {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
 
-       
-        <nav>
-          <ul className="flex space-x-8 text-lg font-medium">
+        {/* Navigation menu */}
+        <nav className={`mt-4 ${menuOpen ? "block" : "hidden"} lg:block`}>
+          <ul className="flex flex-col lg:flex-row lg:space-x-8 text-lg font-medium">
             <li>
-              <Link
-                to={"/"}
-                className="hover:text-blue-400 transition-colors duration-300"
-              >
-                Home
-              </Link>
+              <Link to="/" className="hover:text-blue-400 transition">Home</Link>
             </li>
-
 
             {!isLoading && isLogin && (
               <li>
                 <Link
                   to={`/dashboard/${userId}`}
-                  className="hover:text-blue-400 transition-colors duration-300"
+                  className="hover:text-blue-400 transition"
                 >
                   Dashboard
                 </Link>
               </li>
             )}
 
-              {!isLoading && isLogin && (
+            <li>
+              <Link to="/blog" className="hover:text-blue-400 transition">Blog</Link>
+            </li>
+            <li>
+              <Link to="/project" className="hover:text-blue-400 transition">Project</Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-blue-400 transition">Contact</Link>
+            </li>
+
+            {!isLoading && isLogin ? (
               <li>
-                <Link
+                <button
                   onClick={handleLogout}
-                  className="hover:text-blue-400 transition-colors duration-300"
+                  className="hover:text-blue-400 transition"
                 >
                   Logout
-                </Link>
+                </button>
               </li>
-            )}
-
-           <li>
-  <Link
-    to="/blog"
-    className="hover:text-blue-400 transition-colors duration-300"
-  >
-   Blog
-  </Link>
-</li>
-<li>
-  <Link
-    to="/project"
-    className="hover:text-blue-400 transition-colors duration-300"
-  >
-    project
-  </Link>
-</li>
-<li>
-  <Link
-    to="/contact"
-    className="hover:text-blue-400 transition-colors duration-300"
-  >
-    Contact me
-  </Link>
-</li>
-<li>
-  <Link
-    to="/login"
-    className="hover:text-blue-400 transition-colors duration-300"
-  >
-    Login
-  </Link>
-</li>
-
-
-
-              {!isLoading && isLogin && (
+            ) : (
               <li>
-                <Link
-                  onClick={handleLogout}
-                  className="hover:text-blue-400 transition-colors duration-300"
-                >
-                  Logout
-                </Link>
+                <Link to="/login" className="hover:text-blue-400 transition">Login</Link>
               </li>
             )}
           </ul>
