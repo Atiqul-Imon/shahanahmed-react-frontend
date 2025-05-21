@@ -25,14 +25,14 @@ const Header = () => {
     <header className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4">
 
-        {/* Top section: logo and mobile menu button */}
+        
         <div className="flex justify-between items-center">
-          {/* Replace this text with an image if you want a logo image */}
+          
           <div className="text-2xl font-bold tracking-wide cursor-pointer">
             Shahan Ahmed
           </div>
 
-          {/* Mobile menu button */}
+      
           <div className="lg:hidden">
             <button onClick={toggleMenu}>
               {menuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -40,7 +40,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Navigation menu */}
+        
         <nav className={`mt-4 ${menuOpen ? "block" : "hidden"} lg:block`}>
           <ul className="flex flex-col lg:flex-row lg:space-x-8 text-lg font-medium">
             <li>
