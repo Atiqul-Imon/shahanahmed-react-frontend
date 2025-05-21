@@ -34,7 +34,7 @@ const Header = () => {
     onClick={() => {
       setTimeout(() => {
         window.location.reload();
-      }, 50); // Gives React Router time to navigate
+      }, 50); 
     }}
   >
     Shahan Ahmed

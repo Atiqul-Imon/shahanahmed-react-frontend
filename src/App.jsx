@@ -15,6 +15,7 @@ import AddBlog from "./pages/AddBlog/index.jsx";
 import SnippetList from "./pages/Snippet/SnippetList.jsx";
 import AddSnippet from "./pages/Snippet/addSnippet.jsx";
 import EditSnippet from "./pages/Snippet/editSnippet.jsx";
+import EditBlog from "./pages/BlogDetail/EditBlog.jsx";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -62,6 +63,12 @@ function App() {
         <Route path="/edit-snippet/:id" element={
   <ProtectedRoute>
     <EditSnippet />
+  </ProtectedRoute>
+} />
+
+<Route path="/dashboard/edit-blog/:id" element ={
+  <ProtectedRoute>
+    <EditBlog />
   </ProtectedRoute>
 } />
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { fetchDataFromApi } from "../../../utils/api.js"
+import { fetchDataFromApi, deleteBlog } from "../../../utils/api.js"
 import SnippetList from "../Snippet/SnippetList.jsx";
 import JobListings from "../../components/JobListings.jsx";
 
@@ -17,7 +17,7 @@ const Dashboard = () => {
       try {
         const response = await fetchDataFromApi("/api/blog");
         if (response.error) throw new Error(response.message);
-        setBlogs(response.data); // assume response.data is an array of blogs
+        setBlogs(response.data); 
       } catch (err) {
         console.error("Error fetching blogs:", err);
       }
@@ -36,6 +36,21 @@ const Dashboard = () => {
       };
       fetchSnippets();
     }, []);
+
+const handleDeleteBlog = async (blogId) => {
+  if (!window.confirm("Are you sure?")) return;
+  
+  try {
+    const response = await deleteBlog(blogId);
+    if (response.error) throw new Error(response.message);
+    setBlogs(blogs.filter(blog => blog._id !== blogId));
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+
+
 
   return (
     <section className="bg-zinc-800">
@@ -68,31 +83,56 @@ const Dashboard = () => {
             <th className="p-2 border">Title</th>
             <th className="p-2 border">Created At</th>
             <th className="p-2 border">Category</th>
+            <th className="p-2 border">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {blogs.map((blog, index) => (
-            <tr
-              key={blog._id || index}
-              onClick={() => navigate(`/blog/${blog._id}`)}
-              className="hover:bg-gray-100 cursor-pointer group"
-              role="button"
-              tabIndex={0}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") navigate(`/blog/${blog._id}`);
-              }}
-            >
-              <td className="p-2 border">{index + 1}</td>
-              <td className="p-2 border font-semibold  group-hover:underline">
-                {blog.title}
-              </td>
-              <td className="p-2 border">
-                {new Date(blog.createdAt).toLocaleDateString()}
-              </td>
-              <td className="p-2 border">{blog.category || "Uncategorized"}</td>
-            </tr>
-          ))}
-        </tbody>
+  {blogs.map((blog, index) => (
+    <tr
+      key={blog._id || index}
+      onClick={() => navigate(`/blog/${blog._id}`)}
+      className="hover:bg-gray-100 cursor-pointer group"
+      role="button"
+      tabIndex={0}
+      onKeyPress={(e) => {
+        if (e.key === "Enter") navigate(`/blog/${blog._id}`);
+      }}
+    >
+
+      <td className="p-2 border">{index + 1}</td>
+      <td className="p-2 border font-semibold group-hover:underline">
+        {blog.title}
+      </td>
+      <td className="p-2 border">
+        {new Date(blog.createdAt).toLocaleDateString()}
+      </td>
+      <td className="p-2 border">{blog.categories?.join(', ') || "Uncategorized"}</td>
+      
+      {/* Actions column */}
+      <td className="p-2 border">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/dashboard/edit-blog/${blog._id}`);
+          }}
+          className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+        >
+          Edit
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteBlog(blog._id);
+          }}
+          className="bg-red-500 text-white px-2 py-1 rounded"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
  
 <div className="mt-5">
