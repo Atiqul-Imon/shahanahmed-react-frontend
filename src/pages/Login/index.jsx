@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { postData } from "../../../utils/api";
 
 const Login = () => {
@@ -92,6 +92,15 @@ const Login = () => {
         >
           Login
         </button>
+
+      <div className="mt-4">
+  <p>
+    Not registered?{' '}
+    <Link to="/register" className="text-blue-600 hover:underline">
+      Sign up
+    </Link>
+  </p>
+</div>
       </form>
     </div>
   );
