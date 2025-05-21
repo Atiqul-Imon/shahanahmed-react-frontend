@@ -28,9 +28,18 @@ const Header = () => {
         
         <div className="flex justify-between items-center">
           
-          <div className="text-2xl font-bold tracking-wide cursor-pointer">
-            Shahan Ahmed
-          </div>
+         <div className="text-2xl font-bold tracking-wide cursor-pointer">
+  <Link
+    to="/"
+    onClick={() => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 50); // Gives React Router time to navigate
+    }}
+  >
+    Shahan Ahmed
+  </Link>
+</div>
 
       
           <div className="lg:hidden">
@@ -43,9 +52,20 @@ const Header = () => {
         
         <nav className={`mt-4 ${menuOpen ? "block" : "hidden"} lg:block`}>
           <ul className="flex flex-col lg:flex-row lg:space-x-8 text-lg font-medium">
-            <li>
-              <Link to="/" className="hover:text-blue-400 transition">Home</Link>
-            </li>
+          <li>
+  <Link
+    to="/"
+    onClick={() => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 50); 
+    }}
+    className="hover:text-blue-400 transition"
+  >
+    Home
+  </Link>
+</li>
+
 
             {!isLoading && isLogin && (
               <li>
