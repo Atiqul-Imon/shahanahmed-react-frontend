@@ -50,7 +50,7 @@ const Header = () => {
             {!isLoading && isLogin && (
               <li>
                 <Link
-                  to={`/dashboard/${userId}`}
+                  to={`/dashboard`}
                   className="hover:text-blue-400 transition"
                 >
                   Dashboard
