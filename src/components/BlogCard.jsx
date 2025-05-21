@@ -7,7 +7,7 @@ const BlogCard = ({ blog }) => {
       <div className="bg-gray-800 shadow-md overflow-hidden cursor-pointer transform transition duration-500 hover:scale-105">
         {blog.image && (
           <img
-            src={blog.image}
+            src={blog.image.url}
             alt={blog.title}
             className="w-full h-80 object-cover"
           />

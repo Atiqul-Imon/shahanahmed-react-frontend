@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -36,10 +36,14 @@ const MenuBar = ({ editor }) => {
         Underline
       </button>
       <select
-        value={editor.getAttributes('heading').level}
+        value={editor.getAttributes('heading').level || ''}
         onChange={(e) => {
           const level = parseInt(e.target.value);
-          editor.chain().focus().toggleHeading({ level }).run();
+          if (level) {
+            editor.chain().focus().toggleHeading({ level }).run();
+          } else {
+            editor.chain().focus().setParagraph().run();
+          }
         }}
         className="px-2 py-1 rounded border bg-white"
       >
@@ -71,11 +75,19 @@ const MenuBar = ({ editor }) => {
 const TiptapEditor = ({ content, setContent }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: false,
+        bulletList: false,
+        orderedList: false
+      }),
       Underline,
       Heading.configure({ levels: [1, 2, 3] }),
-      BulletList,
-      OrderedList,
+      BulletList.configure({
+        HTMLAttributes: { class: 'list-disc pl-4' }
+      }),
+      OrderedList.configure({
+        HTMLAttributes: { class: 'list-decimal pl-4' }
+      })
     ],
     content: content || '',
     onUpdate: ({ editor }) => {
@@ -88,6 +100,12 @@ const TiptapEditor = ({ content, setContent }) => {
       },
     },
   });
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content || '');
+    }
+  }, [content, editor]);
 
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm">

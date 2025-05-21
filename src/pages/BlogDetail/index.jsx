@@ -46,7 +46,7 @@ const BlogDetailsPage = () => {
         <article className="bg-white shadow-lg overflow-hidden">
           {blog.image ? (
             <img
-              src={blog.image}
+              src={blog.image.url}
               alt={blog.title}
               className="w-full h-64 md:h-150 object-cover"
             />
