@@ -187,3 +187,40 @@ export const deleteSnippet = async (id) => {
     return handleApiError(error);
   }
 };
+
+
+export const createProject = async (formData) => {
+  try {
+    const response = await apiClient.post('/api/project/create', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+
+export const updateProject = async (id, formData) => {
+  try {
+    const response = await apiClient.put(`/api/project/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const deleteProject = async (id) => {
+  try {
+    const response = await apiClient.delete(`/api/project/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

@@ -16,6 +16,11 @@ import SnippetList from "./pages/Snippet/SnippetList.jsx";
 import AddSnippet from "./pages/Snippet/addSnippet.jsx";
 import EditSnippet from "./pages/Snippet/editSnippet.jsx";
 import EditBlog from "./pages/BlogDetail/EditBlog.jsx";
+import AddProject from "./pages/AddProject/index.jsx";
+import ProjectPage from "./pages/Project/index.jsx";
+import ProjectDetailsPage from "./pages/ProjectDetails/index.jsx";
+import EditProject from "./pages/ProjectDetails/EditProject.jsx";
+import Contact from "./pages/Contact/index.jsx";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -32,9 +37,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/project" element={<ProjectPage />} />
         <Route path="/blog/:id" element={<BlogDetailsPage />} />
+        <Route path="/project/:id" element={<ProjectDetailsPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
 
         {/* Protected Route */}
         <Route path="/dashboard/" element={
@@ -45,6 +53,12 @@ function App() {
         <Route path="/dashboard/add-blog" element={
           <ProtectedRoute>
             <AddBlog />
+          </ProtectedRoute>
+        } />
+
+          <Route path="/dashboard/add-project" element={
+          <ProtectedRoute>
+            <AddProject />
           </ProtectedRoute>
         } />
 
@@ -69,6 +83,12 @@ function App() {
 <Route path="/dashboard/edit-blog/:id" element ={
   <ProtectedRoute>
     <EditBlog />
+  </ProtectedRoute>
+} />
+
+<Route path="/dashboard/edit-project/:id" element ={
+  <ProtectedRoute>
+    <EditProject />
   </ProtectedRoute>
 } />
 

@@ -1,13 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Heading from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
+import Image from '@tiptap/extension-image';
 
 const MenuBar = ({ editor }) => {
+  const fileInputRef = useRef(null);
+
   if (!editor) return null;
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result;
+      editor.chain().focus().setImage({ src: base64 }).run();
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="flex flex-wrap gap-2 p-2 border-b bg-gray-50">
@@ -68,6 +83,21 @@ const MenuBar = ({ editor }) => {
       >
         Numbered List
       </button>
+
+      {/* File input (hidden) and upload button */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleImageUpload}
+      />
+      <button
+        onClick={() => fileInputRef.current.click()}
+        className="px-2 py-1  hover:bg-gray-100"
+      >
+        Upload Image
+      </button>
     </div>
   );
 };
@@ -78,16 +108,21 @@ const TiptapEditor = ({ content, setContent }) => {
       StarterKit.configure({
         heading: false,
         bulletList: false,
-        orderedList: false
+        orderedList: false,
       }),
       Underline,
       Heading.configure({ levels: [1, 2, 3] }),
       BulletList.configure({
-        HTMLAttributes: { class: 'list-disc pl-4' }
+        HTMLAttributes: { class: 'list-disc pl-4' },
       }),
       OrderedList.configure({
-        HTMLAttributes: { class: 'list-decimal pl-4' }
-      })
+        HTMLAttributes: { class: 'list-decimal pl-4' },
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'my-4 max-w-full ',
+        },
+      }),
     ],
     content: content || '',
     onUpdate: ({ editor }) => {
@@ -108,7 +143,7 @@ const TiptapEditor = ({ content, setContent }) => {
   }, [content, editor]);
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-sm">
+    <div className="border overflow-hidden shadow-sm">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
