@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchDataFromApi, deleteBlog } from "../../../utils/api.js";
+import { fetchDataFromApi, deleteBlog, deleteProject } from "../../../utils/api.js";
 import SnippetList from "../Snippet/SnippetList.jsx";
 import JobListings from "../../components/JobListings.jsx";
 
@@ -55,6 +55,17 @@ const Dashboard = () => {
       const response = await deleteBlog(blogId);
       if (response.error) throw new Error(response.message);
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+   const handleDeleteProject = async (projectId) => {
+    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    try {
+      const response = await deleteProject(projectId);
+      if (response.error) throw new Error(response.message);
+      setProjects(projects.filter(project => project._id !== projectId));
     } catch (error) {
       alert(error.message);
     }
@@ -139,52 +150,67 @@ const Dashboard = () => {
         </table>
 
         {/* Project Table */}
-         <button
+         <div className="flex justify-end mb-4">
+          <button
             onClick={() => navigate("/dashboard/add-project")}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
           >
-            + Add project
+            + Add Project
           </button>
+        </div>
+        
         <h2 className="text-xl font-semibold mb-4 text-green-800">
           I have done {projects.length} projects{" "}
           {projects.length > 10 ? "💼🔥" : projects.length > 5 ? "🚀" : "✨"}
         </h2>
+        
         <table className="w-full border text-left mb-10">
           <thead className="bg-white">
             <tr>
               <th className="p-2 border">ID</th>
               <th className="p-2 border">Title</th>
               <th className="p-2 border">Created At</th>
-              <th className="p-2 border">Category</th>
+              <th className="p-2 border">Status</th>
+              <th className="p-2 border">Actions</th> {/* Added Actions column */}
             </tr>
           </thead>
           <tbody>
             {projects.map((project, index) => (
               <tr
                 key={project._id || index}
-                onClick={() => navigate(`/project/${project._id}`)}
                 className="hover:bg-gray-100 cursor-pointer group"
-                role="button"
-                tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") navigate(`/project/${project._id}`);
-                }}
               >
                 <td className="p-2 border">{index + 1}</td>
-                <td className="p-2 border font-semibold group-hover:underline">
+                <td 
+                  className="p-2 border font-semibold group-hover:underline"
+                  onClick={() => navigate(`/project/${project._id}`)}
+                >
                   {project.title}
                 </td>
                 <td className="p-2 border">
                   {new Date(project.createdAt).toLocaleDateString()}
                 </td>
+                <td className="p-2 border capitalize">
+                  {project.status || "draft"}
+                </td>
                 <td className="p-2 border">
-                  {project.categories?.join(", ") || "Uncategorized"}
+                  <button
+                    onClick={() => navigate(`/dashboard/edit-project/${project._id}`)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteProject(project._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
         {/* Snippet List */}
         <div className="mt-5">
           <h1 className="text-2xl font-semibold text-red-800 mb-2">

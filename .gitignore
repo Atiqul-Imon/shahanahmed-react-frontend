@@ -38,3 +38,6 @@ coverage/
 
 # Optional: macOS files
 *.DS_Store
+
+
+server/public/resume/

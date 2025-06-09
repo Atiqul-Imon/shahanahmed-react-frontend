@@ -20,6 +20,13 @@ const Header = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+ const downloadResume = () => {
+   
+    window.open(`${import.meta.env.VITE_API_URL}/api/download-resume`, '_blank');
+  };
+
+
+
 
   return (
     <header className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
@@ -61,6 +68,15 @@ const Header = () => {
                 >
                   Home
                 </Link>
+              </li>
+
+              <li>
+                <button
+                  onClick={downloadResume}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1 rounded transition"
+                >
+                  Download Resume
+                </button>
               </li>
 
               {!isLoading && isLogin && (

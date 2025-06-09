@@ -5,6 +5,7 @@ import HomeBlogcomponent from '../../components/HomeBlogcomponent';
 import GitHubStats from '../../components/githubStats';
 import HuggingFaceContributions from '../../components/HuggingFaceContributions';
 import HomeProjectcomponent from '../../components/HomeProjectComponent';
+import SocialLinks from '../../components/SocialLinks';
 
 function Home() {
   return (
@@ -12,8 +13,8 @@ function Home() {
         <Hero />
         <HomeBlogcomponent />
         <HomeProjectcomponent />
-        <GitHubStats />
-        <HuggingFaceContributions />
+        <SocialLinks />
+        {/* <HuggingFaceContributions /> */}
     </div>
   )
 }

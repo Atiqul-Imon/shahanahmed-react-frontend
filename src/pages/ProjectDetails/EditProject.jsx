@@ -15,6 +15,7 @@ const EditProject = () => {
   });
   const [preview, setPreview] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -51,6 +52,12 @@ const EditProject = () => {
   }, [id, navigate]);
 
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!formData.title || !formData.description) {
+      setError('Title and content are required');
+      return;
+    }
+
     const formPayload = new FormData();
     formPayload.append('title', formData.title);
     formPayload.append('description', formData.description);
@@ -58,9 +65,19 @@ const EditProject = () => {
 
     try {
       setLoading(true);
+      setError('');
+      
       const response = await updateProject(id, formPayload);
-      if (response.error) throw new Error(response.message);
+      
+      // Check for API-level errors
+      if (response.error) {
+        throw new Error(response.message || 'Failed to update project');
+      }
+      
       navigate('/dashboard');
+    } catch (error) {
+      console.error("Failed to update project:", error);
+      setError(error.message || 'Failed to update project');
     } finally {
       setLoading(false);
     }
@@ -70,6 +87,13 @@ const EditProject = () => {
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Edit Project Post</h1>
 
+      {/* Error Message */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
+
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium mb-2">Title *</label>
@@ -77,7 +101,7 @@ const EditProject = () => {
             type="text"
             value={formData.title}
             onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
-            className="w-full p-2 border  focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Enter project title"
           />
         </div>
@@ -91,7 +115,7 @@ const EditProject = () => {
             accept="image/*"
             className="block w-full text-sm text-gray-600
               file:mr-4 file:py-2 file:px-4
-              file: file:border-0
+              file:rounded-lg file:border-0
               file:text-sm file:font-semibold
               file:bg-blue-50 file:text-blue-700
               hover:file:bg-blue-100"
@@ -101,7 +125,7 @@ const EditProject = () => {
               <img 
                 src={preview} 
                 alt="Preview" 
-                className="h-48 w-full object-cover shadow-sm"
+                className="h-48 w-full object-cover rounded-lg shadow-sm"
               />
             </div>
           )}
@@ -118,7 +142,7 @@ const EditProject = () => {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className={`w-full py-3 px-4  font-medium text-white
+          className={`w-full py-3 px-4 rounded-lg font-medium text-white
             ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}
             transition-colors duration-200`}
         >
