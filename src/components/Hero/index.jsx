@@ -2,6 +2,13 @@ import React from "react";
 import { FaSearch, FaDatabase, FaChartBar, FaGlobe } from "react-icons/fa";
 // import clientImg from "../../assets/shahan_ahmed.png"; 
 
+
+  const downloadResume = () => {
+ 
+    window.open(`${import.meta.env.VITE_API_URL}/api/download-resume`, '_blank');
+
+  };
+
 const Hero = () => {
   return (
     <section className="bg-zinc-900 py-20 px-6">
@@ -21,6 +28,15 @@ const Hero = () => {
           Completely synergize resource taxing relationships via premier niche markets.
           Professionally cultivate one-to-one customer service.
         </p>
+
+     <div className="mb-8 md:hidden">
+          <button
+            onClick={downloadResume}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg transition font-medium"
+          >
+            Resume
+          </button>
+        </div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -69,6 +85,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+ 
+
     </section>
   );
 };
