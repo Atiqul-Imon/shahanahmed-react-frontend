@@ -6,10 +6,15 @@ import Heading from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import Image from '@tiptap/extension-image';
+import CodeBlock from '@tiptap/extension-code-block';
+import Blockquote from '@tiptap/extension-blockquote';
+import Strike from '@tiptap/extension-strike';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import Highlight from '@tiptap/extension-highlight';
+import TextAlign from '@tiptap/extension-text-align';
 
 const MenuBar = ({ editor }) => {
   const fileInputRef = useRef(null);
-
   if (!editor) return null;
 
   const handleImageUpload = (event) => {
@@ -25,79 +30,54 @@ const MenuBar = ({ editor }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 p-2 border-b bg-gray-50">
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`px-2 py-1 rounded ${
-          editor.isActive('bold') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-        }`}
-      >
-        Bold
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`px-2 py-1 rounded ${
-          editor.isActive('italic') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-        }`}
-      >
-        Italic
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`px-2 py-1 rounded ${
-          editor.isActive('underline') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-        }`}
-      >
-        Underline
-      </button>
+    <div className="flex flex-wrap items-center gap-2 p-3 border-b bg-white shadow-sm">
+      {/* Basic formatting */}
+      <button onClick={() => editor.chain().focus().toggleBold().run()} className={`btn ${editor.isActive('bold') && 'btn-active'}`}>Bold</button>
+      <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`btn ${editor.isActive('italic') && 'btn-active'}`}>Italic</button>
+      <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={`btn ${editor.isActive('underline') && 'btn-active'}`}>Underline</button>
+      <button onClick={() => editor.chain().focus().toggleStrike().run()} className={`btn ${editor.isActive('strike') && 'btn-active'}`}>Strike</button>
+      <button onClick={() => editor.chain().focus().toggleHighlight().run()} className={`btn ${editor.isActive('highlight') && 'btn-active'}`}>Highlight</button>
+
+      {/* Headings */}
       <select
         value={editor.getAttributes('heading').level || ''}
         onChange={(e) => {
           const level = parseInt(e.target.value);
-          if (level) {
-            editor.chain().focus().toggleHeading({ level }).run();
-          } else {
-            editor.chain().focus().setParagraph().run();
-          }
+          level ? editor.chain().focus().toggleHeading({ level }).run() : editor.chain().focus().setParagraph().run();
         }}
-        className="px-2 py-1 rounded border bg-white"
+        className="px-2 py-1 border rounded"
       >
         <option value="">Normal</option>
-        <option value="1">Heading 1</option>
-        <option value="2">Heading 2</option>
-        <option value="3">Heading 3</option>
+        <option value="1">H1</option>
+        <option value="2">H2</option>
+        <option value="3">H3</option>
       </select>
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`px-2 py-1 rounded ${
-          editor.isActive('bulletList') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-        }`}
-      >
-        Bullet List
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`px-2 py-1 rounded ${
-          editor.isActive('orderedList') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-        }`}
-      >
-        Numbered List
-      </button>
 
-      {/* File input (hidden) and upload button */}
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleImageUpload}
-      />
-      <button
-        onClick={() => fileInputRef.current.click()}
-        className="px-2 py-1  hover:bg-gray-100"
-      >
-        Upload Image
-      </button>
+      {/* Lists */}
+      <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={`btn ${editor.isActive('bulletList') && 'btn-active'}`}>• List</button>
+      <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={`btn ${editor.isActive('orderedList') && 'btn-active'}`}>1. List</button>
+
+      {/* Block elements */}
+      <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`btn ${editor.isActive('blockquote') && 'btn-active'}`}>Quote</button>
+      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={`btn ${editor.isActive('codeBlock') && 'btn-active'}`}>Code</button>
+      <button onClick={() => editor.chain().focus().setHorizontalRule().run()} className="btn">HR</button>
+
+      {/* Alignment */}
+      <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className="btn">Left</button>
+      <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className="btn">Center</button>
+      <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className="btn">Right</button>
+      <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className="btn">Justify</button>
+
+      {/* Clear formatting */}
+      <button onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} className="btn">Clear</button>
+
+      {/* Undo / Redo */}
+      <button onClick={() => editor.chain().focus().undo().run()} className="btn">Undo</button>
+      <button onClick={() => editor.chain().focus().redo().run()} className="btn">Redo</button>
+
+      {/* Image Upload */}
+      <input type="file" accept="image/*" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageUpload} />
+      <button onClick={() => fileInputRef.current.click()} className="btn">Image</button>
     </div>
   );
 };
@@ -111,18 +91,16 @@ const TiptapEditor = ({ content, setContent }) => {
         orderedList: false,
       }),
       Underline,
+      Strike,
+      Highlight,
       Heading.configure({ levels: [1, 2, 3] }),
-      BulletList.configure({
-        HTMLAttributes: { class: 'list-disc pl-4' },
-      }),
-      OrderedList.configure({
-        HTMLAttributes: { class: 'list-decimal pl-4' },
-      }),
-      Image.configure({
-        HTMLAttributes: {
-          class: 'my-4 max-w-full ',
-        },
-      }),
+      BulletList.configure({ HTMLAttributes: { class: 'list-disc pl-4' } }),
+      OrderedList.configure({ HTMLAttributes: { class: 'list-decimal pl-4' } }),
+      Image.configure({ HTMLAttributes: { class: 'my-4 max-w-full' } }),
+      CodeBlock,
+      Blockquote,
+      HorizontalRule,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: content || '',
     onUpdate: ({ editor }) => {
@@ -143,7 +121,7 @@ const TiptapEditor = ({ content, setContent }) => {
   }, [content, editor]);
 
   return (
-    <div className="border overflow-hidden shadow-sm">
+    <div className="border shadow rounded">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

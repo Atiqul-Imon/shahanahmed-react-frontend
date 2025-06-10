@@ -61,6 +61,21 @@ export default function SocialLinks() {
               className="w-8 h-8"
             />
           </a>
+
+           {/* Google Scholar */}
+          <a
+            href="https://scholar.google.com/citations?hl=en&user=ROqm-4EAAAAJ"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Google Scholar"
+            className="transition duration-300 ease-in-out transform hover:scale-110"
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Scholar_logo.svg"
+              alt="Google Scholar"
+              className="w-8 h-8"
+            />
+          </a>
         </div>
       </div>
     </section>

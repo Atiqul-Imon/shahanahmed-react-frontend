@@ -1,20 +1,20 @@
 import React from "react";
 import { FaSearch, FaDatabase, FaChartBar, FaGlobe } from "react-icons/fa";
-import clientImg from "../../assets/shahan_ahmed.png"; 
+// import clientImg from "../../assets/shahan_ahmed.png"; 
 
 const Hero = () => {
   return (
-    <section className="bg-zinc-900 py-16 px-6">
+    <section className="bg-zinc-900 py-20 px-6">
       <div className="max-w-7xl mx-auto text-center text-white">
 
         {/* Client Image */}
-        <div className="flex justify-center mb-6">
+        {/* <div className="flex justify-center mb-6">
           <img
             src={clientImg}
             alt="Client"
             className="w-[200px] h-[200px] rounded-full border-2 border-gray-200  shadow-lg object-cover"
           />
-        </div>
+        </div> */}
 
         <h2 className="text-3xl font-semibold mb-4">Specializing in</h2>
         <p className="max-w-2xl mx-auto mb-12 text-gray-300">
