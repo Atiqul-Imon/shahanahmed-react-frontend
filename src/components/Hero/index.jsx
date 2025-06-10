@@ -32,7 +32,7 @@ const Hero = () => {
      <div className="mb-8 md:hidden">
           <button
             onClick={downloadResume}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg transition font-medium"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg transition font-medium pointer"
           >
             Resume
           </button>

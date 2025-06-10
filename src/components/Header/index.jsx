@@ -50,7 +50,7 @@ const Header = () => {
               <li>
                 <button
                   onClick={downloadResume}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1 rounded transition"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1 rounded transition cursor-pointer"
                 >
                   Resume
                 </button>
@@ -68,7 +68,7 @@ const Header = () => {
 
               {!isLoading && isLogin ? (
                 <li>
-                  <button onClick={handleLogout} className="hover:text-blue-400 transition">Logout</button>
+                  <button onClick={handleLogout} className="hover:text-blue-400 transition cursor-pointer">Logout</button>
                 </li>
               ) : (
                 <li><Link to="/login" className="hover:text-blue-400 transition">Login</Link></li>
