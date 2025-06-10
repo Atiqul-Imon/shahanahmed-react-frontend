@@ -9,11 +9,11 @@ import SocialLinks from '../../components/SocialLinks';
 
 function Home() {
   return (
-    <div className='bg-zinc-900'>
+    <div className='bg-zinc-900 min-h-screen'>
         <Hero />
         <HomeBlogcomponent />
         <HomeProjectcomponent />
-        <SocialLinks />
+        {/* <SocialLinks /> */}
         {/* <HuggingFaceContributions /> */}
     </div>
   )

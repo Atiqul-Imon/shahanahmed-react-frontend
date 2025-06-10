@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { postData } from "../../../utils/api";
 
 const Register = () => {
@@ -19,17 +18,29 @@ const Register = () => {
     }));
   };
 
+  const validatePassword = (password) => {
+    // Minimum 6 characters with at least one letter and one number
+    const regex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    return regex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setError(false);
+
+    // Validate password
+    if (!validatePassword(formData.password)) {
+      setError(true);
+      setMessage("Password must be at least 6 characters with both letters and numbers");
+      return;
+    }
 
     try {
       const res = await postData("/api/user/register", formData);
 
       if (!res.error && res.success) {
         setMessage(res.message);
-
         
         if (res.data?.accessToken && res.data?.refreshToken) {
           localStorage.setItem("accessToken", res.data.accessToken);
@@ -93,6 +104,9 @@ const Register = () => {
             required
             className="w-full px-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
           />
+          <p className="text-xs text-gray-500 mt-1">
+            Must be at least 6 characters with letters and numbers
+          </p>
         </div>
 
         <button
