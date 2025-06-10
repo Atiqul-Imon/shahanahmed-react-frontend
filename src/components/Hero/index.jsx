@@ -6,7 +6,7 @@ import { FaSearch, FaDatabase, FaChartBar, FaGlobe } from "react-icons/fa";
   const downloadResume = () => {
  
     window.open(`${import.meta.env.VITE_API_URL}/api/download-resume`, '_blank');
-
+   window.alert("Resume Downloaded")
   };
 
 const Hero = () => {
