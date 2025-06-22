@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProjectCard from "../../components/ProjectCard";
 import { fetchDataFromApi } from "../../../utils/api";
-import SEO from "../../components/SEO";
 
 const Project = () => {
   const [projects, setProjects] = useState([]);
@@ -39,20 +38,14 @@ const Project = () => {
   }
 
   return (
-    <>
-      <SEO 
-        title="Projects - Shahan Ahmed"
-        description="Explore a collection of data analysis and web development projects by Shahan Ahmed. See my work on data visualization, BI dashboards, and full-stack applications."
-      />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-12">My Projects</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <ProjectCard key={project._id} project={project} />
-          ))}
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-12">My Projects</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <ProjectCard key={project._id} project={project} />
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

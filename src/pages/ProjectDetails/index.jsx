@@ -5,7 +5,6 @@ import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 import ErrorMessage from "../../components/ErrorMessage.jsx";
 import { format } from "date-fns";
 import { FiArrowLeft, FiCalendar, FiExternalLink, FiGithub, FiTag } from "react-icons/fi";
-import SEO from "../../components/SEO";
 import { Slate, Editable, withReact } from "slate-react";
 import { createEditor } from "slate";
 import { Element, Leaf } from "../../components/SlateEditor";
@@ -80,13 +79,6 @@ const ProjectDetailsPage = () => {
 
   return (
     <>
-      <SEO 
-        title={`${project.title} - Shahan Ahmed's Project`}
-        description={metaDescription}
-        image={project.images && project.images[0]?.url}
-        url={`https://www.shahanahmed.com/project/${project._id}`}
-        type="article"
-      />
       <div className="bg-gray-900 text-white min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <button
