@@ -3,238 +3,121 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchDataFromApi, deleteBlog, deleteProject } from "../../../utils/api.js";
 import SnippetList from "../Snippet/SnippetList.jsx";
 import JobListings from "../../components/JobListings.jsx";
+import DashboardLayout from "./DashboardLayout";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BookOpen, Briefcase, Code, Users } from 'lucide-react';
 
-const Dashboard = () => {
-  const { userId } = useParams();
-  const email = localStorage.getItem("email");
-  const navigate = useNavigate();
-
-  const [blogs, setBlogs] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [snippets, setSnippets] = useState([]);
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetchDataFromApi("/api/blog");
-        if (response.error) throw new Error(response.message);
-        setBlogs(response.data);
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetchDataFromApi("/api/project");
-        if (response.error) throw new Error(response.message);
-        setProjects(response.data);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  useEffect(() => {
-    const fetchSnippets = async () => {
-      const data = await fetchDataFromApi("/api/snippet");
-      setSnippets(data);
-    };
-    fetchSnippets();
-  }, []);
-
-  const handleDeleteBlog = async (blogId) => {
-    if (!window.confirm("Are you sure?")) return;
-    try {
-      const response = await deleteBlog(blogId);
-      if (response.error) throw new Error(response.message);
-      setBlogs(blogs.filter((blog) => blog._id !== blogId));
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-   const handleDeleteProject = async (projectId) => {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
-    try {
-      const response = await deleteProject(projectId);
-      if (response.error) throw new Error(response.message);
-      setProjects(projects.filter(project => project._id !== projectId));
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  return (
-    <section className="bg-zinc-800">
-      <div className="bg-zinc-200 p-6 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4">😂 OWW!! This is my Dashboard</h1>
-        <p className="mb-6">
-          <strong>I am using now-</strong> {email}
-        </p>
-
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={() => navigate("/dashboard/add-blog")}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-          >
-            + Add Blog
-          </button>
-        </div>
-
-        <h2 className="text-xl font-semibold mb-4 text-red-800">
-          I have published {blogs.length} blogs{" "}
-          {blogs.length > 10 ? "😮" : blogs.length > 5 ? "🤣" : "😊 cause I am cool."}
-        </h2>
-
-        {/* Blog Table */}
-        <table className="w-full border text-left mb-10">
-          <thead className="bg-white">
-            <tr>
-              <th className="p-2 border">ID</th>
-              <th className="p-2 border">Title</th>
-              <th className="p-2 border">Created At</th>
-              <th className="p-2 border">Category</th>
-              <th className="p-2 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {blogs.map((blog, index) => (
-              <tr
-                key={blog._id || index}
-                onClick={() => navigate(`/blog/${blog._id}`)}
-                className="hover:bg-gray-100 cursor-pointer group"
-                role="button"
-                tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") navigate(`/blog/${blog._id}`);
-                }}
-              >
-                <td className="p-2 border">{index + 1}</td>
-                <td className="p-2 border font-semibold group-hover:underline">{blog.title}</td>
-                <td className="p-2 border">
-                  {new Date(blog.createdAt).toLocaleDateString()}
-                </td>
-                <td className="p-2 border">
-                  {blog.categories?.join(", ") || "Uncategorized"}
-                </td>
-                <td className="p-2 border">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/dashboard/edit-blog/${blog._id}`);
-                    }}
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteBlog(blog._id);
-                    }}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Project Table */}
-         <div className="flex justify-end mb-4">
-          <button
-            onClick={() => navigate("/dashboard/add-project")}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-          >
-            + Add Project
-          </button>
-        </div>
-        
-        <h2 className="text-xl font-semibold mb-4 text-green-800">
-          I have done {projects.length} projects{" "}
-          {projects.length > 10 ? "💼🔥" : projects.length > 5 ? "🚀" : "✨"}
-        </h2>
-        
-        <table className="w-full border text-left mb-10">
-          <thead className="bg-white">
-            <tr>
-              <th className="p-2 border">ID</th>
-              <th className="p-2 border">Title</th>
-              <th className="p-2 border">Created At</th>
-              <th className="p-2 border">Status</th>
-              <th className="p-2 border">Actions</th> {/* Added Actions column */}
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((project, index) => (
-              <tr
-                key={project._id || index}
-                className="hover:bg-gray-100 cursor-pointer group"
-              >
-                <td className="p-2 border">{index + 1}</td>
-                <td 
-                  className="p-2 border font-semibold group-hover:underline"
-                  onClick={() => navigate(`/project/${project._id}`)}
-                >
-                  {project.title}
-                </td>
-                <td className="p-2 border">
-                  {new Date(project.createdAt).toLocaleDateString()}
-                </td>
-                <td className="p-2 border capitalize">
-                  {project.status || "draft"}
-                </td>
-                <td className="p-2 border">
-                  <button
-                    onClick={() => navigate(`/dashboard/edit-project/${project._id}`)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteProject(project._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {/* Snippet List */}
-        <div className="mt-5">
-          <h1 className="text-2xl font-semibold text-red-800 mb-2">
-            My All code snippet List
-          </h1>
-          {snippets.map((snip) => (
-            <div key={snip._id} className="border p-4 mb-4 bg-gray-100 rounded">
-              <h3 className="text-xl font-semibold">
-                {snip.title} ({snip.language})
-              </h3>
-              <p className="text-sm text-gray-600">
-                Category: {snip.category || "None"}
-              </p>
+const StatCard = ({ icon, label, value, color }) => {
+    const Icon = icon;
+    return (
+        <div className={`p-6 rounded-2xl bg-white border border-gray-200 shadow-soft`}>
+            <div className="flex items-center justify-between">
+                <div>
+                    <p className="text-sm font-medium text-gray-500">{label}</p>
+                    <p className="text-3xl font-bold text-gray-800">{value}</p>
+                </div>
+                <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br ${color}`}>
+                    <Icon size={24} className="text-white" />
+                </div>
             </div>
-          ))}
         </div>
-
-        {/* Job Listings */}
-        <div className="mt-8">
-          <JobListings />
-        </div>
-      </div>
-    </section>
-  );
+    );
 };
 
-export default Dashboard;
+const DashboardOverview = () => {
+    const [stats, setStats] = useState({ blogs: 0, projects: 0, snippets: 0 });
+
+    useEffect(() => {
+        const fetchAllData = async () => {
+            try {
+                const [blogData, projectData, snippetData] = await Promise.all([
+                    fetchDataFromApi("/api/blog"),
+                    fetchDataFromApi("/api/project"),
+                    fetchDataFromApi("/api/snippet"),
+                ]);
+
+                setStats({
+                    blogs: blogData.data?.length || 0,
+                    projects: projectData.data?.length || 0,
+                    snippets: snippetData?.length || 0,
+                });
+            } catch (err) {
+                console.error("Error fetching dashboard data:", err);
+            }
+        };
+        fetchAllData();
+    }, []);
+
+    const chartData = [
+        { name: 'Blogs', count: stats.blogs, fill: '#3b82f6' },
+        { name: 'Projects', count: stats.projects, fill: '#16a34a' },
+        { name: 'Snippets', count: stats.snippets, fill: '#f97316' },
+    ];
+
+    const pieChartColors = ['#3b82f6', '#16a34a', '#f97316'];
+
+    return (
+        <DashboardLayout>
+            <div className="space-y-10">
+                {/* Header */}
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-800">Dashboard Overview</h1>
+                    <p className="text-gray-500 mt-1">Welcome back! Here's a summary of your content.</p>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatCard icon={BookOpen} label="Total Blogs" value={stats.blogs} color="from-blue-500 to-blue-400" />
+                    <StatCard icon={Briefcase} label="Total Projects" value={stats.projects} color="from-green-500 to-green-400" />
+                    <StatCard icon={Code} label="Total Snippets" value={stats.snippets} color="from-orange-500 to-orange-400" />
+                    <StatCard icon={Users} label="Total Users" value="1" color="from-purple-500 to-purple-400" />
+                </div>
+
+                {/* Charts */}
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+                    <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-gray-200 shadow-soft">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Content Distribution</h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={chartData}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                                <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: 'white',
+                                        borderRadius: '0.5rem',
+                                        border: '1px solid #e5e7eb',
+                                    }}
+                                />
+                                <Legend wrapperStyle={{ fontSize: '14px' }} />
+                                <Bar dataKey="count" name="Total Count" barSize={40} radius={[8, 8, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-200 shadow-soft">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Content Types</h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <PieChart>
+                                <Pie data={chartData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+                                    {chartData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={pieChartColors[index % pieChartColors.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip
+                                     contentStyle={{
+                                        backgroundColor: 'white',
+                                        borderRadius: '0.5rem',
+                                        border: '1px solid #e5e7eb',
+                                    }}
+                                />
+                                <Legend wrapperStyle={{ fontSize: '14px' }} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
+        </DashboardLayout>
+    );
+};
+
+export default DashboardOverview;

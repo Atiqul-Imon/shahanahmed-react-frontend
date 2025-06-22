@@ -10,7 +10,10 @@ import BlogPage from "./pages/Blog";
 import BlogDetailsPage from "./pages/BlogDetail";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard/index.jsx"; 
+import DashboardOverview from "./pages/Dashboard/index.jsx";
+import DashboardBlogs from "./pages/Dashboard/Blogs.jsx";
+import DashboardProjects from "./pages/Dashboard/Projects.jsx";
+import DashboardSnippets from "./pages/Dashboard/Snippets.jsx";
 import AddBlog from "./pages/AddBlog/index.jsx";
 import SnippetList from "./pages/Snippet/SnippetList.jsx";
 import AddSnippet from "./pages/Snippet/addSnippet.jsx";
@@ -33,67 +36,40 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/project" element={<ProjectPage />} />
-        <Route path="/blog/:id" element={<BlogDetailsPage />} />
-        <Route path="/project/:id" element={<ProjectDetailsPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contact" element={<Contact />} />
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <main className="pt-20">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/project" element={<ProjectPage />} />
+            <Route path="/blog/:id" element={<BlogDetailsPage />} />
+            <Route path="/project/:id" element={<ProjectDetailsPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/contact" element={<Contact />} />
 
-        {/* Protected Route */}
-        <Route path="/dashboard/" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/dashboard/add-blog" element={
-          <ProtectedRoute>
-            <AddBlog />
-          </ProtectedRoute>
-        } />
+            {/* Protected Dashboard Routes */}
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
+            <Route path="/dashboard/blogs" element={<ProtectedRoute><DashboardBlogs /></ProtectedRoute>} />
+            <Route path="/dashboard/projects" element={<ProtectedRoute><DashboardProjects /></ProtectedRoute>} />
+            <Route path="/dashboard/snippets" element={<ProtectedRoute><DashboardSnippets /></ProtectedRoute>} />
+            
+            <Route path="/dashboard/add-blog" element={<ProtectedRoute><AddBlog /></ProtectedRoute>} />
+            <Route path="/dashboard/add-project" element={<ProtectedRoute><AddProject /></ProtectedRoute>} />
+            <Route path="/add-snippet" element={<ProtectedRoute><AddSnippet /></ProtectedRoute>} />
 
-          <Route path="/dashboard/add-project" element={
-          <ProtectedRoute>
-            <AddProject />
-          </ProtectedRoute>
-        } />
+            <Route path="/dashboard/edit-blog/:id" element={<ProtectedRoute><EditBlog /></ProtectedRoute>} />
+            <Route path="/dashboard/edit-project/:id" element={<ProtectedRoute><EditProject /></ProtectedRoute>} />
+            <Route path="/edit-snippet/:id" element={<ProtectedRoute><EditSnippet /></ProtectedRoute>} />
 
-<Route path="/allsnippet" element={
-          <ProtectedRoute>
-            <SnippetList />
-          </ProtectedRoute>
-        } />
-
-<Route path="/add-snippet" element={
-          <ProtectedRoute>
-            <AddSnippet />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/edit-snippet/:id" element={
-  <ProtectedRoute>
-    <EditSnippet />
-  </ProtectedRoute>
-} />
-
-<Route path="/dashboard/edit-blog/:id" element ={
-  <ProtectedRoute>
-    <EditBlog />
-  </ProtectedRoute>
-} />
-
-<Route path="/dashboard/edit-project/:id" element ={
-  <ProtectedRoute>
-    <EditProject />
-  </ProtectedRoute>
-} />
-
-      </Routes>
-      <Footer />
+            {/* This route seems to be unused in the new dashboard, keeping it for now */}
+            <Route path="/allsnippet" element={<ProtectedRoute><SnippetList /></ProtectedRoute>} />
+            
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }

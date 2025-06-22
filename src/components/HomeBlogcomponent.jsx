@@ -22,7 +22,9 @@ useEffect(() => {
   fetchBlogs();
 }, []);
 
-
+if (blogs.length === 0) {
+  return null;
+}
 
   return (
     <>

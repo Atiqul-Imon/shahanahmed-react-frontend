@@ -224,3 +224,16 @@ export const deleteProject = async (id) => {
     return handleApiError(error);
   }
 };
+
+export const uploadEditorImage = async (formData) => {
+  try {
+    const response = await apiClient.post('/api/image/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

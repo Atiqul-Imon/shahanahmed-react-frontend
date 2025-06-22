@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: '', message: '' });
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -11,8 +12,10 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus({ type: '', message: '' });
+
     try {
-      const res = await fetch('https://your-backend-domain.com/api/contact', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -21,14 +24,14 @@ function Contact() {
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message || 'Message sent successfully!');
+        setStatus({ type: 'success', message: data.message || 'Message sent successfully!' });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert(data.message || 'Something went wrong.');
+        setStatus({ type: 'error', message: data.message || 'Something went wrong.' });
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to send message.');
+      setStatus({ type: 'error', message: 'Failed to send message. Please check your connection and try again.' });
     } finally {
       setLoading(false);
     }
@@ -55,12 +58,6 @@ function Contact() {
                 </a>
               </li>
               <li>
-                <strong>Phone:</strong>{' '}
-                <a href="tel:+1234567890" className="text-blue-400 hover:underline">
-                  +123 456 7890
-                </a>
-              </li>
-              <li>
                 <strong>Location:</strong> New York, USA
               </li>
             </ul>
@@ -68,9 +65,20 @@ function Contact() {
 
           {/* Contact Form */}
           <form
-            className="bg-gray-800 p-6 rounded-lg shadow-lg"
+            className="bg-gray-800 p-6 shadow-lg"
             onSubmit={handleSubmit}
           >
+            {/* Status Message */}
+            {status.message && (
+              <div className={`mb-4 p-3 rounded ${
+                status.type === 'success' 
+                  ? 'bg-green-600 text-white' 
+                  : 'bg-red-600 text-white'
+              }`}>
+                {status.message}
+              </div>
+            )}
+
             <div className="mb-4">
               <label className="block text-sm mb-2" htmlFor="name">
                 Name
@@ -82,7 +90,7 @@ function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Your Name"
               />
             </div>
@@ -98,7 +106,7 @@ function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="you@example.com"
               />
             </div>
@@ -114,7 +122,7 @@ function Contact() {
                 onChange={handleChange}
                 required
                 rows="5"
-                className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Your message..."
               ></textarea>
             </div>
@@ -122,7 +130,7 @@ function Contact() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-300"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white py-2 px-4 transition duration-300"
             >
               {loading ? 'Sending...' : 'Send Message'}
             </button>
