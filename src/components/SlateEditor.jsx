@@ -96,7 +96,7 @@ export const ImageButton = () => {
           event.preventDefault();
           fileInputRef.current.click();
         }}
-        className={`p-2 rounded bg-gray-200`}
+        className={`p-2 rounded transition-colors text-gray-300 hover:bg-gray-700`}
       >
         <FaImage />
       </button>
@@ -166,7 +166,7 @@ export const BlockButton = ({ format, icon }) => {
         event.preventDefault();
         toggleBlock(editor, format);
       }}
-      className={`p-2 rounded ${isActive ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+      className={`p-2 rounded transition-colors text-gray-300 hover:bg-gray-700 ${isActive ? 'bg-indigo-600 text-white' : ''}`}
     >
       {icon}
     </button>
@@ -197,7 +197,7 @@ export const MarkButton = ({ format, icon }) => {
         event.preventDefault();
         toggleMark(editor, format);
       }}
-      className={`p-2 rounded ${isActive ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+      className={`p-2 rounded transition-colors text-gray-300 hover:bg-gray-700 ${isActive ? 'bg-indigo-600 text-white' : ''}`}
     >
       {icon}
     </button>

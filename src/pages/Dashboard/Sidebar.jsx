@@ -17,7 +17,6 @@ const Sidebar = ({ isOpen }) => {
 
   const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
-    { to: '/dashboard/blogs', icon: FileText, label: 'Blogs' },
     { to: '/dashboard/projects', icon: Briefcase, label: 'Projects' },
     { to: '/dashboard/snippets', icon: Code, label: 'Snippets' },
   ];
@@ -29,18 +28,18 @@ const Sidebar = ({ isOpen }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 h-full bg-gray-800 border-r border-gray-700 flex flex-col transition-all duration-300 ease-in-out ${
         isOpen ? 'w-64' : 'w-20'
       }`}
     >
       {/* Logo */}
-      <div className="flex items-center justify-center h-20 border-b border-gray-200">
+      <div className="flex items-center justify-center h-20 border-b border-gray-700">
         <div className={`flex items-center space-x-2 transition-all duration-200 ${!isOpen && 'justify-center'}`}>
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-glow">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-glow">
               <span className="text-white font-bold text-lg">S</span>
             </div>
             {isOpen && (
-              <span className="text-xl font-bold text-gray-800">Dashboard</span>
+              <span className="text-xl font-bold text-gray-200">Dashboard</span>
             )}
         </div>
       </div>
@@ -51,10 +50,10 @@ const Sidebar = ({ isOpen }) => {
           <Link
             key={item.to}
             to={item.to}
-            className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 ${
+            className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:text-white ${
               isActive(item.to)
-                ? 'bg-primary-50 text-primary-600 font-semibold'
-                : 'text-gray-600'
+                ? 'bg-gray-700 text-white font-semibold'
+                : 'text-gray-300'
             } ${!isOpen && 'justify-center'}`}
             title={isOpen ? '' : item.label}
           >
@@ -65,12 +64,12 @@ const Sidebar = ({ isOpen }) => {
       </nav>
 
       {/* Bottom Navigation */}
-      <div className="px-4 py-6 border-t border-gray-200 space-y-2">
+      <div className="px-4 py-6 border-t border-gray-700 space-y-2">
         {bottomNavItems.map((item) => (
           <Link
             key={item.to}
             to={item.to}
-            className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 text-gray-600 ${
+            className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 text-gray-300 hover:bg-gray-700 hover:text-white ${
               !isOpen && 'justify-center'
             }`}
             title={isOpen ? '' : item.label}

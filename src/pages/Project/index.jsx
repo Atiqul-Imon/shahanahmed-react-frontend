@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchDataFromApi } from "../../../utils/api.js";
-import ProjectCard from "../../components/ProjectCard.jsx";
+import ProjectCard from "../../components/ProjectCard";
+import { fetchDataFromApi } from "../../../utils/api";
+import SEO from "../../components/SEO";
 
-const ProjectPage = () => {
+const Project = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,54 +11,49 @@ const ProjectPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetchDataFromApi("/api/project");
-        if (response.error) throw new Error(response.message);
-        setProjects(response.data);
+        const data = await fetchDataFromApi("/api/project");
+        setProjects(data.data || []);
       } catch (err) {
-        setError(err.message);
+        setError("Failed to load projects. Please try again later.");
+        setProjects([]);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 p-6 md:p-12 flex justify-center items-center">
-        <div className="text-white text-lg">Loading projects...</div>
+      <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <ProjectCard key={index} />
+        ))}
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="min-h-screen bg-gray-900 p-6 md:p-12 flex flex-col items-center justify-center">
-        <div className="text-red-500 text-lg mb-4">Error: {error}</div>
-        <button
-          onClick={() => window.location.reload()}
-          className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700"
-        >
-          Try Again
-        </button>
-      </div>
-    );
+    return <div className="text-center py-12 text-red-500">{error}</div>;
   }
 
-return (
-    <div className="min-h-screen bg-gray-900 p-6 md:p-12">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center font-primary">
-          My Projects
-        </h1>
-        <div className="grid gap-8 md:grid-cols-2">
-          {projects.map((project)=>(
+  return (
+    <>
+      <SEO 
+        title="Projects - Shahan Ahmed"
+        description="Explore a collection of data analysis and web development projects by Shahan Ahmed. See my work on data visualization, BI dashboards, and full-stack applications."
+      />
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-center mb-12">My Projects</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project) => (
             <ProjectCard key={project._id} project={project} />
-          ))}        </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default ProjectPage;
+export default Project;

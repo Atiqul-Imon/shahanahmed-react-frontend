@@ -35,7 +35,6 @@ const Header = () => {
 
   const navItems = [
     { path: "/", label: "Home", icon: Home },
-    { path: "/blog", label: "Blog", icon: FileText },
     { path: "/project", label: "Projects", icon: Briefcase },
     { path: "/contact", label: "Contact", icon: MessageCircle },
   ];
@@ -43,17 +42,14 @@ const Header = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-soft border-b border-gray-100' 
+        ? 'bg-gray-900/80 backdrop-blur-md shadow-lg border-b border-gray-700' 
         : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-glow">
-              <span className="text-white font-bold text-lg">S</span>
-            </div>
-            <Link to="/" className="text-2xl font-bold tracking-wide cursor-pointer transition-colors duration-200 hover:text-primary-600">
+            <Link to="/" className="text-2xl font-bold tracking-wide cursor-pointer text-gray-100 hover:text-white transition-colors duration-200">
               Shahan Ahmed
             </Link>
           </div>
@@ -68,8 +64,8 @@ const Header = () => {
                   to={item.path}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium ${
                     isActive(item.path)
-                      ? 'text-primary-600 bg-primary-50 shadow-soft'
-                      : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                      ? 'text-white bg-blue-600 shadow-soft'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
                   }`}
                 >
                   <Icon size={18} />
@@ -78,29 +74,20 @@ const Header = () => {
               );
             })}
 
-            {/* Resume Button */}
-            <button
-              onClick={downloadResume}
-              className="flex items-center space-x-2 bg-gradient-to-r from-success-500 to-success-600 hover:from-success-600 hover:to-success-700 text-white px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-soft hover:shadow-medium transform hover:scale-105"
-            >
-              <Download size={18} />
-              <span>Resume</span>
-            </button>
-
             {/* Auth Section */}
-            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-200">
+            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-700">
               {!isLoading && isLogin ? (
                 <>
                   <Link
                     to="/dashboard"
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition-all duration-200 font-medium"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-all duration-200 font-medium"
                   >
                     <BarChart3 size={18} />
                     <span>Dashboard</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-600 hover:text-error-600 hover:bg-error-50 transition-all duration-200 font-medium"
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 font-medium"
                   >
                     <LogOut size={18} />
                     <span>Logout</span>
@@ -109,7 +96,7 @@ const Header = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 text-white transition-all duration-200 font-medium shadow-soft hover:shadow-medium transform hover:scale-105"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 font-medium shadow-soft hover:shadow-medium transform hover:scale-105"
                 >
                   <User size={18} />
                   <span>Login</span>
@@ -122,7 +109,7 @@ const Header = () => {
           <div className="lg:hidden">
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+              className="p-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors duration-200"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -133,7 +120,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {menuOpen && (
           <div className="mt-4 lg:hidden animate-slide-down">
-            <div className="bg-white rounded-xl shadow-large border border-gray-100 p-6">
+            <div className="bg-gray-800 rounded-xl shadow-large border border-gray-700 p-6">
               <nav className="space-y-3">
                 {navItems.map((item) => {
                   const Icon = item.icon;
@@ -144,8 +131,8 @@ const Header = () => {
                       onClick={toggleMenu}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium ${
                         isActive(item.path)
-                          ? 'text-primary-600 bg-primary-50'
-                          : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                          ? 'text-white bg-blue-600'
+                          : 'text-gray-300 hover:text-white hover:bg-gray-700'
                       }`}
                     >
                       <Icon size={20} />
@@ -154,30 +141,21 @@ const Header = () => {
                   );
                 })}
 
-                {/* Mobile Resume Button */}
-                <button
-                  onClick={() => { downloadResume(); toggleMenu(); }}
-                  className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-gradient-to-r from-success-500 to-success-600 text-white font-medium transition-all duration-200"
-                >
-                  <Download size={20} />
-                  <span>Download Resume</span>
-                </button>
-
                 {/* Mobile Auth Section */}
-                <div className="pt-3 border-t border-gray-200">
+                <div className="pt-3 border-t border-gray-700">
                   {!isLoading && isLogin ? (
                     <div className="space-y-3">
                       <Link
                         to="/dashboard"
                         onClick={toggleMenu}
-                        className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-secondary-100 text-secondary-700 font-medium"
+                        className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-gray-700 text-gray-200 font-medium"
                       >
                         <BarChart3 size={20} />
                         <span>Dashboard</span>
                       </Link>
                       <button
                         onClick={() => { handleLogout(); toggleMenu(); }}
-                        className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:text-error-600 hover:bg-error-50 font-medium"
+                        className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-500/10 font-medium"
                       >
                         <LogOut size={20} />
                         <span>Logout</span>
@@ -187,7 +165,7 @@ const Header = () => {
                     <Link
                       to="/login"
                       onClick={toggleMenu}
-                      className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-primary-500 text-white font-medium"
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-600 text-white font-medium"
                     >
                       <User size={20} />
                       <span>Login</span>

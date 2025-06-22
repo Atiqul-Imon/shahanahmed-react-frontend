@@ -1,22 +1,19 @@
-import React from 'react'
-import Hero from '../../components/Hero';
+import React, { useEffect, useState } from "react";
+import Hero from "../../components/Hero";
+import HomeProjectComponent from "../../components/HomeProjectComponent";
+import SEO from "../../components/SEO";
 
-import HomeBlogcomponent from '../../components/HomeBlogcomponent';
-import GitHubStats from '../../components/githubStats';
-import HuggingFaceContributions from '../../components/HuggingFaceContributions';
-import HomeProjectcomponent from '../../components/HomeProjectComponent';
-import SocialLinks from '../../components/SocialLinks';
-
-function Home() {
+const HomePage = () => {
   return (
-    <div className='bg-zinc-900 min-h-screen'>
-        <Hero />
-        <HomeBlogcomponent />
-        <HomeProjectcomponent />
-        {/* <SocialLinks /> */}
-        {/* <HuggingFaceContributions /> */}
-    </div>
-  )
-}
+    <>
+      <SEO 
+        title="Shahan Ahmed - Data Analyst & Developer Portfolio"
+        description="Welcome to the portfolio of Shahan Ahmed, a skilled data analyst and developer specializing in data visualization, insights, and innovative web solutions. Explore my projects and get in touch."
+      />
+      <Hero />
+      <HomeProjectComponent />
+    </>
+  );
+};
 
-export default Home;
+export default HomePage;

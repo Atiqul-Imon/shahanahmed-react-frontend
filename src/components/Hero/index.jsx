@@ -13,7 +13,7 @@ const Hero = () => {
       url: "https://github.com/shahan24h",
       icon: FaGithub,
       color: "hover:text-gray-400",
-      bgColor: "bg-gray-900 hover:bg-gray-800"
+      bgColor: "bg-gray-700 hover:bg-gray-600"
     },
     {
       name: "LinkedIn",
@@ -75,7 +75,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative bg-gradient-to-br from-secondary-900 via-secondary-800 to-primary-900 overflow-hidden py-24">
+    <section className="relative overflow-hidden py-24">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl animate-float"></div>
@@ -85,14 +85,14 @@ const Hero = () => {
 
       <div className="relative z-10 container mx-auto px-6">
         {/* Main Content */}
-        <div className="text-center text-white max-w-4xl mx-auto">
+        <div className="text-center max-w-4xl mx-auto">
           {/* Header Section */}
           <div className="mb-12 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 ">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gray-100">
               Shahan Ahmed
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-400 mb-8 leading-relaxed">
               Transforming data into insights, building innovative solutions, and creating meaningful digital experiences
             </p>
 
@@ -111,7 +111,7 @@ const Hero = () => {
 
           {/* Specialties Grid */}
           <div className="animate-slide-up">
-            <h2 className="text-3xl font-bold mb-12 text-white">
+            <h2 className="text-3xl font-bold mb-12 text-gray-100">
               Specializing in
             </h2>
             
@@ -125,14 +125,14 @@ const Hero = () => {
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <div className="flex items-center mb-4">
-                      <div className={`p-3 rounded-xl ${specialty.bgColor} ${specialty.borderColor} border`}>
+                      <div className={`p-3 rounded-xl bg-gray-900/50 border-gray-700 border`}>
                         <Icon className={`text-2xl ${specialty.color}`} />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-primary-200 transition-colors duration-200">
+                    <h3 className="text-lg font-semibold text-gray-100 mb-3 group-hover:text-primary-200 transition-colors duration-200">
                       {specialty.title}
                     </h3>
-                    <p className="text-gray-300 leading-relaxed text-sm">
+                    <p className="text-gray-400 leading-relaxed text-sm">
                       {specialty.description}
                     </p>
                   </div>
@@ -143,7 +143,7 @@ const Hero = () => {
 
           {/* Social Links */}
           <div className="mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <h3 className="text-2xl font-semibold text-white mb-8">
+            <h3 className="text-2xl font-semibold text-gray-100 mb-8">
               Connect with Me
             </h3>
             
@@ -157,7 +157,7 @@ const Hero = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.name}
-                    className={`group p-4 rounded-2xl transition-all duration-300 transform hover:scale-110 hover:shadow-glow ${social.bgColor} text-white`}
+                    className={`group p-4 rounded-2xl transition-all duration-300 transform hover:scale-110 hover:shadow-glow ${social.bgColor} text-gray-100`}
                   >
                     {social.isImg ? (
                       <img src={social.icon} alt={social.name} className="w-6 h-6 transition-transform duration-200 group-hover:rotate-12" />

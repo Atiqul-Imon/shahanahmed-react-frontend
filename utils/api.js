@@ -93,7 +93,7 @@ export const fetchDataFromApi = async (url) => {
     return data;
   } catch (error) {
     console.error("fetchDataFromApi error:", error);
-    return error;
+    throw error;
   }
 };
 
@@ -122,60 +122,17 @@ export const deleteData = async (url) => {
   }
 };
 
-export const createBlog = async (formData) => {
-  try {
-    const response = await apiClient.post('/api/blog/create', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return handleApiError(error);
-  }
-};
-
-export const updateBlog = async (id, formData) => {
-  try {
-    const response = await apiClient.put(`/api/blog/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return handleApiError(error);
-  }
-};
-
-export const deleteBlog = async (id) => {
-  try {
-    const response = await apiClient.delete(`/api/blog/${id}`);
-    return response.data;
-  } catch (error) {
-    return handleApiError(error);
-  }
-};
-
-const handleApiError = (error) => {
-  console.error("API Error:", error);
-  return {
-    error: true,
-    message: error.response?.data?.message || "An error occurred",
-    status: error.response?.status || 500
-  };
-};
-
-
-
-
-
 export const updateSnippet = async (id, snippetData) => {
   try {
     const response = await apiClient.put(`/api/snippet/${id}`, snippetData);
     return response;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };
 
@@ -184,7 +141,12 @@ export const deleteSnippet = async (id) => {
     const response = await apiClient.delete(`/api/snippet/${id}`);
     return response;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };
 
@@ -198,7 +160,12 @@ export const createProject = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };
 
@@ -212,7 +179,12 @@ export const updateProject = async (id, formData) => {
     });
     return response.data;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };
 
@@ -221,7 +193,12 @@ export const deleteProject = async (id) => {
     const response = await apiClient.delete(`/api/project/${id}`);
     return response.data;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };
 
@@ -234,6 +211,11 @@ export const uploadEditorImage = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    return handleApiError(error);
+    console.error("API Error:", error);
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occurred",
+      status: error.response?.status || 500
+    };
   }
 };

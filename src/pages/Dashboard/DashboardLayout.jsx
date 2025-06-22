@@ -6,7 +6,7 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen bg-secondary-100 font-sans">
+    <div className="flex h-screen bg-gray-900 font-sans">
       <Sidebar isOpen={isSidebarOpen} />
 
       <div
