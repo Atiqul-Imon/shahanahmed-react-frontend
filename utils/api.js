@@ -36,6 +36,13 @@ apiClient.interceptors.response.use(
    
       window.location.href = "/login";
     }
+    
+    // Handle rate limit errors (429)
+    if (error.response && error.response.status === 429) {
+      const retryAfter = error.response.data?.retryAfter || 60;
+      console.warn(`Rate limit exceeded. Retry after ${retryAfter} seconds.`);
+    }
+    
     return Promise.reject(error);
   }
 );

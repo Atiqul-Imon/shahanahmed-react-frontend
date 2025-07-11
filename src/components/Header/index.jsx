@@ -75,34 +75,24 @@ const Header = () => {
             })}
 
             {/* Auth Section */}
-            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-700">
-              {!isLoading && isLogin ? (
-                <>
-                  <Link
-                    to="/dashboard"
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-all duration-200 font-medium"
-                  >
-                    <BarChart3 size={18} />
-                    <span>Dashboard</span>
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 font-medium"
-                  >
-                    <LogOut size={18} />
-                    <span>Logout</span>
-                  </button>
-                </>
-              ) : (
+            {!isLoading && isLogin && (
+              <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-700">
                 <Link
-                  to="/login"
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 font-medium shadow-soft hover:shadow-medium transform hover:scale-105"
+                  to="/dashboard"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-all duration-200 font-medium"
                 >
-                  <User size={18} />
-                  <span>Login</span>
+                  <BarChart3 size={18} />
+                  <span>Dashboard</span>
                 </Link>
-              )}
-            </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-500/10 transition-all duration-200 font-medium"
+                >
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -142,8 +132,8 @@ const Header = () => {
                 })}
 
                 {/* Mobile Auth Section */}
-                <div className="pt-3 border-t border-gray-700">
-                  {!isLoading && isLogin ? (
+                {!isLoading && isLogin && (
+                  <div className="pt-3 border-t border-gray-700">
                     <div className="space-y-3">
                       <Link
                         to="/dashboard"
@@ -161,17 +151,8 @@ const Header = () => {
                         <span>Logout</span>
                       </button>
                     </div>
-                  ) : (
-                    <Link
-                      to="/login"
-                      onClick={toggleMenu}
-                      className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-600 text-white font-medium"
-                    >
-                      <User size={20} />
-                      <span>Login</span>
-                    </Link>
-                  )}
-                </div>
+                  </div>
+                )}
               </nav>
             </div>
           </div>
