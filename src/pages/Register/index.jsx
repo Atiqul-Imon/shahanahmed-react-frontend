@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { postData } from "../../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -52,6 +53,11 @@ const Register = () => {
         }
 
         setFormData({ name: "", email: "", password: "" });
+        
+        // Navigate to login page after successful registration
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       } else {
         setError(true);
         setMessage(res.message || "Something Went Wrong");

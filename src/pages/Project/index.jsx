@@ -1,49 +1,36 @@
-import React, { useEffect, useState } from "react";
-import ProjectCard from "../../components/ProjectCard";
-import { fetchDataFromApi } from "../../../utils/api";
+import React from "react";
+import { Code, Clock } from "lucide-react";
 
 const Project = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await fetchDataFromApi("/api/project");
-        setProjects(data.data || []);
-      } catch (err) {
-        setError("Failed to load projects. Please try again later.");
-        setProjects([]);
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <ProjectCard key={index} />
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div className="text-center py-12 text-red-500">{error}</div>;
-  }
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-12">My Projects</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
-        ))}
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className="text-center max-w-2xl mx-auto">
+        {/* Icon */}
+        <div className="mb-8">
+          <div className="relative inline-block">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-full shadow-2xl">
+              <Code size={64} className="text-white" />
+            </div>
+            <div className="absolute -top-2 -right-2 bg-yellow-400 p-2 rounded-full">
+              <Clock size={20} className="text-gray-800" />
+            </div>
+          </div>
+        </div>
+
+        {/* Main Heading */}
+        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          Projects
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            Coming Soon
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+          I'm working on adding my projects here soon.
+          <br />
+          <span className="text-blue-400 font-medium">Stay tuned for updates!</span>
+        </p>
       </div>
     </div>
   );
